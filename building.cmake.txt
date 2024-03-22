@@ -1,0 +1,9 @@
+Build CMake:
+=============
+
+From inside a Linux Terminal
+
+1 - mkdir build  (if no 'build' folder already exist)
+2 - cd build
+3 - cmake ..     (Will create all the file to run a make command)
+4 - make         (Will compile the project)
