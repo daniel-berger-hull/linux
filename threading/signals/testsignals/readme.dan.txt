@@ -1,0 +1,1 @@
+This is a CodeBlocks project, to test the signals in Linux
