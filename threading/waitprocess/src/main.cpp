@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
+
+
 
 
 
@@ -15,8 +18,10 @@ int spawn (char* program, char** arg_list)
 
     child_pid = fork (); /* Duplicate this process. */
     if (child_pid != 0)
-
+    {
+        sleep(15);
         return child_pid; /* This is the parent process. */
+    }
     else {
 
         execvp (program, arg_list); /* Now execute PROGRAM, searching for it in the path. */
@@ -28,6 +33,7 @@ int spawn (char* program, char** arg_list)
 
 int main ()
 {
+    int child_status;
     printf ("Main process ID %d started...\n", (int) getpid ());
 
     char* arg_list[] = {
@@ -38,7 +44,18 @@ int main ()
     NULL /* The argument list must end with a NULL. */
     };
 
-    spawn ("./child.o", arg_list);
+    child_status = spawn ("./child.o", arg_list);
+    printf ("Received id for the child  process %d\n", child_status );
+
+    /*
+    wait (&child_status);
+
+    if (WIFEXITED (child_status))
+        printf ("the child process exited normally, with exit code %d\n", WEXITSTATUS (child_status));
+    else
+        printf ("the child process exited abnormally\n");
+    */
+
 
     printf ("done with main program\n");
     return 0;
