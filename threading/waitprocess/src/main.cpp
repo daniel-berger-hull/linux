@@ -7,9 +7,6 @@
 #include <unistd.h>
 
 
-
-
-
 using namespace std;
 
 int spawn (char* program, char** arg_list)
