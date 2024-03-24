@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1711313552 source:/home/dxb160/data/workspaces/cdev/linuxbook/linux/threading/childprocess/src/main.cpp
+	<stdio.h>
+	<unistd.h>
+
