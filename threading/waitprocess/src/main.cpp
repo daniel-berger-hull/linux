@@ -31,27 +31,28 @@ int spawn (char* program, char** arg_list)
 int main ()
 {
     int child_status;
+    printf ("*** Make sure to have the exectable 'childprocess' in the same folder... ***\n", (int) getpid ());
     printf ("Main process ID %d started...\n", (int) getpid ());
 
     char* arg_list[] = {
-    "./child.o", /* argv[0], the name of the program. */
+    "./childprocess", /* argv[0], the name of the program. */
     "1",
     "2",
 
     NULL /* The argument list must end with a NULL. */
     };
 
-    child_status = spawn ("./child.o", arg_list);
+    child_status = spawn ("./childprocess", arg_list);
     printf ("Received id for the child  process %d\n", child_status );
 
-    /*
+
     wait (&child_status);
 
     if (WIFEXITED (child_status))
         printf ("the child process exited normally, with exit code %d\n", WEXITSTATUS (child_status));
     else
         printf ("the child process exited abnormally\n");
-    */
+
 
 
     printf ("done with main program\n");
