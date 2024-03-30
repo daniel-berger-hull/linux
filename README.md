@@ -1,5 +1,4 @@
-Collection of simple C projects to run on Linux, based on the study of the book 'Advanced Linux Programming'
- from New Riders edition (2001).
+Collection of simple C projects to run on Linux, based on the study of the book 'Advanced Linux Programming'  from New Riders edition (2001).
 
 
 General Notes:
@@ -8,7 +7,7 @@ General Notes:
 
 * exec:   Replace the callers process with another one, and continues the execution with the code provided as param
 
-*fork & exce: Use both method, if you want to spawn a new process, but that is will run a different program
+*fork & exec: Use both method, if you want to spawn a new process, but that is will run a different program
               (Which is most case, that is what you want. You don't want to just duplicate same code for a process')
                Steps:  1 - Call fork (so 2 process will exist)
                        2 - on the duplicate process, call exec, with the code you want to run
