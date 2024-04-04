@@ -1,11 +1,12 @@
 **/bin/
 **/obj/
 **/CMakeFiles/
+**/CMakeFiles/**/*.*
 
 **/build/**/*.*
-CMakeCache.txt
-Makefile
-cmake_install.cmake
+***/CMakeCache.txt
+***/Makefile
+***/cmake_install.cmake
 
 
 
