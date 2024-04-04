@@ -1,3 +1,0 @@
-/home/dxb160/data/workspaces/cdev/linux-programming-book/basics/command-line-params/CMakeFiles/test-params.dir
-/home/dxb160/data/workspaces/cdev/linux-programming-book/basics/command-line-params/CMakeFiles/edit_cache.dir
-/home/dxb160/data/workspaces/cdev/linux-programming-book/basics/command-line-params/CMakeFiles/rebuild_cache.dir
