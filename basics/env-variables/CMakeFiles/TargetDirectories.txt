@@ -1,0 +1,3 @@
+/home/dxb160/data/workspaces/cdev/linux-programming-book/basics/env-variables/CMakeFiles/env-variables.dir
+/home/dxb160/data/workspaces/cdev/linux-programming-book/basics/env-variables/CMakeFiles/edit_cache.dir
+/home/dxb160/data/workspaces/cdev/linux-programming-book/basics/env-variables/CMakeFiles/rebuild_cache.dir
