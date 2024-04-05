@@ -1,7 +1,9 @@
-Collection of simple C projects to run on Linux, based on the study of the book 'Advanced Linux Programming'  from New Riders edition (2001).
+========================================================================================================================
+                                 GENERAL NOTES ON LINUX DEVELOPMENT                  
 
 
-General Notes:
+PROCESS 
+=======
 * fork:   Duplicate the callers process,  so that 2 process exists with the same code.
         The execution of code continues EXACTLY the next line where the fork method been called.
 
@@ -12,3 +14,8 @@ General Notes:
                Steps:  1 - Call fork (so 2 process will exist)
                        2 - on the duplicate process, call exec, with the code you want to run
                           (So that the inial code is not just duplicated. The new process will exectute something else).
+
+
+THREADS
+========
+
