@@ -19,3 +19,7 @@ PROCESS
 THREADS
 ========
 
+*Create Thread:
+     Function pthread_create from the include file pthread.h to create new threads
+
+     int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg)

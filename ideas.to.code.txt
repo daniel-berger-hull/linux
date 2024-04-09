@@ -1,0 +1,12 @@
+
+
+
+1 - Encryption on threads:
+  Spawn theads to encrypt/decript messages
+  (Use Chap 3, and book '\Cryptograph\Crachking Codes with Python' PDF for ideas of encryption algo)
+
+2 - Sockets and Threads
+  2.1 Simple Socket exchanges between 2 processes
+
+
+

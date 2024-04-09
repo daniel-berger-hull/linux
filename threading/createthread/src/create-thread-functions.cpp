@@ -24,7 +24,7 @@ void* thread_noParam (void* unused)
 
      for (int i=0;i<25;i++)
      {
-            fputc ('x', stderr);
+            //fputc ('x', stderr);
             usleep(100000);
      }
 
@@ -62,6 +62,8 @@ int main()
     /* Create a new thread. The new thread will run the print_xs function. */
     pthread_create (&thread_id , NULL, &thread_noParam, NULL);
     pthread_create (&thread_id2, NULL, &thread_withParam, &params);
+
+    printf("Thread #1 is %d\n", thread_id );
 
     sleep(5);
 

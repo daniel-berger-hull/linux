@@ -1,13 +1,9 @@
+
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
 
 
-/*
-   This example is almost the same as createthread, as instead of having an explicit sleep in the main thread, it uses the join function
-   The result is that the main thread will block till Thread #1 (no param) is completed (because it is the shortest),
-   then the  main thread blocks again, waiting for Thread #2, and only when #2 is completed, that it exist the program
-*/
 
 
 //We must pass a structure if we want to pass arguments to a thread function
@@ -23,16 +19,17 @@ struct myThreadParams
 void* thread_noParam (void* unused)
 {
 
-    printf("No Value passed to this thread...\n");
+    pthread_t noParamThread = pthread_self();
+
+    printf("No Value passed to  thread. ID %lu..\n",noParamThread);
     usleep(100000);         // Wait a bit, as the other thread will also print something, and it will not look pretty on the screen...
 
-     for (int i=0;i<5;i++)
+     for (int i=0;i<25;i++)
      {
-            fputc ('x', stderr);
-            usleep(200000);
+            //fputc ('x', stderr);
+            usleep(100000);
      }
 
-     printf("\nthread_noParam completed!\n");
      return NULL;
 }
 
@@ -40,10 +37,11 @@ void* thread_noParam (void* unused)
 // Function Thread with with Parameters  (Must pass a struct object)...
 void* thread_withParam (void* allParams)
 {
+    pthread_t withParamThread = pthread_self();
+
 
     myThreadParams *params = (myThreadParams *)allParams;
-    printf("Value passed to the thread:  count = %d, flag = %d\n", params->count, params-> flag);
-    usleep(100000);
+    printf("Value passed to thread ID %lu:  count = %d, flag = %d\n", withParamThread, params->count, params-> flag);
     int numIterations = (params->count > 0) ? params->count : 0;
 
     //printf("Value passed to the thread:  count = %d\n", params->count);
@@ -51,10 +49,8 @@ void* thread_withParam (void* allParams)
      for (int i=0;i<numIterations;i++)
      {
             fputc ('y', stderr);
-            usleep(200000);
+            usleep(100000);
      }
-
-    printf("\nthread_with Param completed!\n");
 
      return NULL;
 }
@@ -64,21 +60,14 @@ int main()
     pthread_t thread_id, thread_id2;
     myThreadParams params;
 
-    params.count = 15;
+    params.count = 5;
     params.flag = true;
 
     /* Create a new thread. The new thread will run the print_xs function. */
     pthread_create (&thread_id , NULL, &thread_noParam, NULL);
     pthread_create (&thread_id2, NULL, &thread_withParam, &params);
 
-    printf("[Main Thread] Threads are created.. \nMain Loop will block till child threads are done...\n");
-
-   pthread_join (thread_id, NULL);          /* Make sure the first thread has finished. */
-
-   pthread_join (thread_id2, NULL);  /* Make sure the second thread has finished. */
-   printf("\n[Main Thread] Threads 1 (no params) is done...\n");
-   printf("\n[Main Thread] Threads 2 (with myThreadParams params) is done...\n");
-
+    sleep(5);
 
     return 0;
 }
