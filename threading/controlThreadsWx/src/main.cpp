@@ -1,8 +1,31 @@
-// Start of wxWidgets "Hello World" Program
+
+// Simple demo of starting and canceling a thread. A wxWidget been used, as it is easier to demo using button to start/stop thread
+// and  having a status bar that identifies is a thread is running or not...
 
 #include <sys/types.h>
-
 #include <wx/wx.h>
+
+
+const unsigned long int INACTIVE_THREAD = 0;
+
+
+// Function Thread with No Parameters...
+void* thread_noParam (void* unused)
+{
+
+    printf("\nStart new thread...\n");
+    usleep(100000);         // Wait a bit, as the other thread will also print something, and it will not look pretty on the screen...
+
+     for (int i=0;i<250;i++)
+     {
+            fputc ('x', stderr);
+            usleep(100000);
+     }
+
+      printf("\n");
+
+     return NULL;
+}
 
 class MyApp : public wxApp
 {
@@ -35,6 +58,8 @@ private:
     wxButton *cancelThreadBtn;
 
     wxTextCtrl *textctrl;
+
+    pthread_t thread_id = INACTIVE_THREAD;
 };
 
 enum
@@ -45,10 +70,14 @@ enum
 };
 
 
-  BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
+BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
     EVT_BUTTON ( ID_CREATE_NEW_THREAD_BUTTON, MyFrame::OnCreateNewThread ) // Tell the OS to run MainFrame::OnExit when
     EVT_BUTTON ( ID_CANCEL_THREAD_BUTTON, MyFrame::OnCancelThread ) // Tell the OS to run MainFrame::OnExit when
-  END_EVENT_TABLE() // The button is pressed */
+    EVT_MENU( ID_Hello, MyFrame::OnHello)
+    EVT_MENU( wxID_ABOUT, MyFrame::OnAbout)
+    EVT_MENU( wxID_EXIT, MyFrame::OnExit)
+END_EVENT_TABLE()
+
 
 bool MyApp::OnInit()
 {
@@ -65,17 +94,19 @@ MyFrame::MyFrame()  : wxFrame(nullptr, wxID_ANY, "Threads Text App",wxDefaultPos
     SetStatusText("No thread created...");
 
     buildMainPanel(this);
-
 }
 
 void MyFrame::buildMainPanel(wxWindow *parent)
 {
     wxPanel *panel = new wxPanel(parent, -1);
+    // Use this textbox in the future to display some status...
     //textctrl = new wxTextCtrl(panel, -1, wxT(""), wxDefaultPosition, wxSize(250, 150), wxTE_MULTILINE);
 
     createNewThreadBtn = new wxButton(panel, ID_CREATE_NEW_THREAD_BUTTON, _T("Create New"),wxPoint(30,30), wxSize(120, 30), 0);
     cancelThreadBtn = new wxButton(panel, ID_CANCEL_THREAD_BUTTON, _T("Cancel"),wxPoint(30,70), wxSize(120, 30), 0);
 
+    createNewThreadBtn -> Enable();
+    cancelThreadBtn -> Disable();
 }
 
 
@@ -95,29 +126,51 @@ void MyFrame::buildMenu()
     menuBar->Append(menuHelp, "&Help");
 
     SetMenuBar( menuBar );
-
-    Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Hello);
-    Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
 }
 
 void MyFrame::OnCreateNewThread(wxCommandEvent& event)
 {
- //wxMessageBox("OnCreateNewThread", ello World", wxOK | wxICON_INFORMATION);
-  SetStatusText("Sub Thread in progress...");
+
+  if (thread_id == INACTIVE_THREAD)
+  {
+    pthread_create (&thread_id , NULL, &thread_noParam, NULL);
+    SetStatusText("Thread in progress...");
+    createNewThreadBtn -> Disable();
+    cancelThreadBtn -> Enable();
+  }
+  else
+      wxMessageBox("A thread is already active!", "Caution", wxOK | wxICON_EXCLAMATION);
 }
 
 void MyFrame::OnCancelThread(wxCommandEvent& event)
 {
- /*  wxMessageBox("OnCancelThread",
-                 "About Hello World", wxOK | wxICON_INFORMATION); */
- SetStatusText("No Active Thread");
+
+
+  if (thread_id != INACTIVE_THREAD)
+  {
+    pthread_cancel(thread_id );
+    thread_id = INACTIVE_THREAD;
+    SetStatusText("No Active Thread");
+    createNewThreadBtn -> Enable();
+    cancelThreadBtn -> Disable();
+  }
+  else
+      wxMessageBox("No thread to stop!", "Caution", wxOK | wxICON_EXCLAMATION);
+
+
 }
 
 
 void MyFrame::OnExit(wxCommandEvent& event)
 {
-    Close(true);
+  // Make sure to stop the thread before closing the application...
+  if (thread_id != INACTIVE_THREAD)
+  {
+    pthread_cancel(thread_id );
+    thread_id = INACTIVE_THREAD;
+  }
+
+   Close(true);
 }
 
 void MyFrame::OnAbout(wxCommandEvent& event)
